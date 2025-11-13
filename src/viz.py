@@ -25,3 +25,12 @@ def box_h(ax, values, title, xlabel, grid: bool = True):
     ax.set_xlabel(xlabel)
     ax.grid(grid, axis="x")
     return ax
+
+def bar_chart(ax, values, title, xlabel, ylabel="Andel (%)", grid: bool = True):
+    values = _num_for_plot(values)
+    ax.bar(values.index, values.values, edgecolor="black")
+    ax.set_title(title)
+    ax.set_xlabel(xlabel)
+    ax.set_ylabel(ylabel)
+    ax.grid(grid, axis="y")
+    return ax
