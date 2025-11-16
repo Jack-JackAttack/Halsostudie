@@ -34,3 +34,13 @@ def bar_chart(ax, values, title, xlabel, ylabel="Andel (%)", grid: bool = True):
     ax.set_ylabel(ylabel)
     ax.grid(grid, axis="y")
     return ax
+
+
+def ci_plot(ax, lo, hi, mean, title, xlabel):
+    ax.hlines(y=0, xmin=lo, xmax=hi, color="black")
+    ax.plot(mean, 0, "o", color="red")
+    ax.set_title(title)
+    ax.set_xlabel(xlabel)
+    ax.set_yticks([])
+    ax.grid(False)
+    return ax
