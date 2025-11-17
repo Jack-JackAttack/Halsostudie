@@ -35,7 +35,7 @@ def bar_chart(ax, values, title, xlabel, ylabel="Andel (%)", grid: bool = True):
     ax.grid(grid, axis="y")
     return ax
 
-
+#tagit kod från lektionen om konfidensintervall
 def ci_plot(ax, lo, hi, mean, title, xlabel):
     ax.hlines(y=0, xmin=lo, xmax=hi, color="black")
     ax.plot(mean, 0, "o", color="red")
@@ -43,4 +43,18 @@ def ci_plot(ax, lo, hi, mean, title, xlabel):
     ax.set_xlabel(xlabel)
     ax.set_yticks([])
     ax.grid(False)
+    return ax
+
+#tagit kod från lektionen om konfidensintervall
+def bootstrap_hist(ax, boot_means, mean_x, lo, hi, title="Bootsrapfördelning av medel", bins=30):
+    boot_means = _num_for_plot(boot_means)
+    ax.hist(boot_means, bins=bins, edgecolor="black", alpha=0.7)
+    ax.axvline(mean_x, color="green", linestyle="--", label="Stickprovsmedelvärde")
+    ax.axvline(lo, color="red", linestyle="--", label="Nedre 95% gräns")
+    ax.axvline(hi, color="red", linestyle="--", label="Övre 95% gräns")
+    ax.set_title(title)
+    ax.set_xlabel("Resamplade medelvärden")
+    ax.set_ylabel("Frekvens")
+    ax.grid(True, axis="y")
+    ax.legend()
     return ax
