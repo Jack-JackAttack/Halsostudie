@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from math import sqrt
+from scipy import stats
 
 def calc_4m(df, column_name):
     """
@@ -56,3 +57,25 @@ def ci_mean_bootsrap(x, B=500, confidence=0.95):
     hi = np.percentile(boot_means, 100*(1 - alpha))
 
     return float(lo), float(hi), float(np.mean(x)), boot_means
+
+
+def test_smoker_bp(df):
+    """
+    Hypotesprövning: Rökare har högre systoliskt blodtryck än icke rökare
+    """
+    smoker_col = df["smoker"].astype(str).str.strip().str.lower()
+    smokers = df.loc[smoker_col == "yes", "systolic_bp"].dropna().values
+    non_smokers = df.loc[smoker_col == "no", "systolic_bp"].dropna().values
+    mean_smokers = float(np.mean(smokers))
+    mean_non_smokers = float(np.mean(non_smokers))
+    diff_mean = mean_smokers - mean_non_smokers
+
+    t_stat, p_two = stats.ttest_ind(smokers, non_smokers, equal_var=False)
+
+    if t_stat > 0:
+        p_one = p_two / 2
+    else:
+        p_one = 1 - p_two / 2
+
+    return (mean_smokers, mean_non_smokers, diff_mean, t_stat, p_one, smokers, non_smokers)
+    

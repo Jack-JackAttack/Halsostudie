@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import pandas as pd
+import numpy as np
 
 #Tog denna kod från EDA projektet. Den fyller eventuella tomma "celler" med 0.
 def _num_for_plot(s):
@@ -56,5 +57,21 @@ def bootstrap_hist(ax, boot_means, mean_x, lo, hi, title="Bootsrapfördelning av
     ax.set_xlabel("Resamplade medelvärden")
     ax.set_ylabel("Frekvens")
     ax.grid(True, axis="y")
+    ax.legend()
+    return ax
+
+def mean_compare(ax, smokers, non_smokers, title="Jämförelse av medelvärde: Rökare vs Icke-rökare", ylabel="Systolic BP"):
+    smokers = _num_for_plot(smokers)
+    non_smokers = _num_for_plot(non_smokers)
+    data = [smokers, non_smokers]
+    labels = ["Rökare", "Icke-rökare"]
+    ax.boxplot(data, labels=labels)
+    mean_s = np.mean(smokers)
+    mean_n = np.mean(non_smokers)
+    ax.plot(1, mean_s, "o", color="red", label=f"Medel rökare ({mean_s:.2f})")
+    ax.plot(2, mean_n, "o", color="blue", label=f"Medel icke-rökare ({mean_n:.2f})")
+    ax.set_title(title)
+    ax.set_ylabel(ylabel)
+    ax.grid(axis="y")
     ax.legend()
     return ax
