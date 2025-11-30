@@ -75,3 +75,21 @@ def mean_compare(ax, smokers, non_smokers, title="Jämförelse av medelvärde: R
     ax.grid(axis="y")
     ax.legend()
     return ax
+
+def regression_plot(ax, df, model, x_col, y_col, title):
+    """
+    Ritar en scatterplot med regressionslinje. Använder metoden (regression) från health_analyzer.
+    """
+
+    ax.scatter(df[x_col], df[y_col], alpha=0.8, label="Observationer")
+    x_vals = np.linspace(df[x_col].min(), df[x_col].max(), 100)
+    y_vals = model.predict(x_vals.reshape(-1, 1))
+
+    ax.plot(x_vals, y_vals, color="red", linewidth=2, label="Regressionslinje")
+
+    ax.set_title(title)
+    ax.set_xlabel(x_col)
+    ax.set_ylabel(y_col)
+    ax.grid(True, axis="both", alpha=0.8)
+    ax.legend()
+    return ax
